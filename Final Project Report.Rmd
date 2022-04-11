@@ -1,0 +1,41 @@
+---
+title: "Final Project Report"
+authors: Sameer Khan, Luke Schreiber, Nick Waddups
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+Talk about body shaming and why it's an issue. Talk about why it's important to study it-- if we can prove that there is body shaming on ig, then more resources can be allocated to solving the issue? 
+
+## Data Collection
+Start by talking about our plan to answer our question that was posed in the introduction. Then, talk about methods of collecting data-- how we collected the data, and why we collected the data this way. Talk about any flaws in the way we intend to gather data, and why we had to do it this way if it's less than ideal. 
+
+## Data Analysis
+R stuff. Talk about how we had to transform the data-- manually changing incorrectly formatted data, getting bmi, bmi vs ig followers, relationships between variables, etc etc. Make and show graphs, charts, all that fancy stuff
+
+```{r, echo=FALSE}
+# Some data cleansing is done here. Some of it must be done manually every time the data set is downloaded. In particular, cleansing incorrectly formatted height data is difficult to do it in R, so just do it manually. 
+
+# Read the data, then rename the columns for better readability
+raw_data = read.csv("Survey Data.csv")
+names(raw_data) <- c('Timestamp', 'GPA', 'Height', 'Gender', 'Sleep', 'Weight', 
+                       'PostsPics', 'Followers', 'MinsOnIG', 'TooLongOnIG')
+raw_data <- raw_data[!is.na(as.numeric(as.character(raw_data$GPA))),] # Purge faulty data from people being ape brain
+
+
+# Get the Instagram users
+ig_users <- raw_data[raw_data$PostsPics != '',]
+ig_users <- ig_users[!is.na(ig_users$Followers),] # Purge faulty data from people being ape brain
+
+# Get the non-Instagram users
+nonIg_users <- raw_data[raw_data$PostsPics == '',]
+
+```
+
+
+## Conclusions
+What conclusions can be made. Confounding variables, shortcomings of this study. Mostly STEM majors-- asked people from class, discord, reddit, idk. See if we can actually answer the question we posed, strength of evidence, etc etc. 
