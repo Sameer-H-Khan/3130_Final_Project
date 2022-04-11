@@ -32,17 +32,32 @@ raw_data['Inches'] <- as.numeric(substr(raw_data$Height, 1, 1))*12 + as.numeric(
 # Calculate BMI
 raw_data['BMI'] <- raw_data$Weight * 703 / raw_data$Inches^2
 
-# Get the Instagram users
+# Get all Instagram users
 ig_users <- raw_data[raw_data$PostsPics != '',]
 ig_users <- ig_users[!is.na(ig_users$Followers),] # Purge faulty data from people being ape brain
+
+# Get Instagram users who post pictures of themselves
+ig_posters <- ig_users[ig_users$PostsPics == 'Yes',]
 
 # Get the non-Instagram users
 nonIg_users <- raw_data[raw_data$PostsPics == '',]
 
-# Relationship between BMI and number of followers
-plot(ig_users$BMI, ig_users$Followers)
-BMI_vs_Followers_Model <- lm(ig_users$Followers ~ ig_users$BMI, data = ig_users)
+# Relationship between BMI and number of followers for those who post pictures of themselves on IG
+plot(ig_posters$BMI, ig_posters$Followers)
+BMI_vs_Followers_Model <- lm(ig_posters$Followers ~ ig_posters$BMI, data = ig_posters)
 summary(BMI_vs_Followers_Model) # High R-squared means strong correlation, low R-squared means we don't have evidence for a strong correlation
+
+# See if there's a difference in the BMI of people who have IG vs those who don't have IG
+t.test(ig_users$BMI, nonIg_users$BMI, conf.level = 0.95)
+
+
+# Relationship between GPA and number of time spent on IG
+plot(ig_users$MinsOnIG, ig_users$GPA)
+TimeOnIG_vs_GPA_Model <- lm(ig_users$GPA ~ ig_users$MinsOnIG, data = ig_users)
+summary(TimeOnIG_vs_GPA_Model) # High R-squared means strong correlation, low R-squared means we don't have evidence for a strong correlation
+
+# See if there's a difference in the GPA of people who have IG vs those who don't have IG
+t.test(as.numeric(ig_users$GPA), as.numeric(nonIg_users$GPA), conf.level = 0.95)
 ```  
 
 
