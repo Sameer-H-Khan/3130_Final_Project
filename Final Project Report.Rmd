@@ -26,6 +26,11 @@ names(raw_data) <- c('Timestamp', 'GPA', 'Height', 'Gender', 'Sleep', 'Weight',
                        'PostsPics', 'Followers', 'MinsOnIG', 'TooLongOnIG')
 raw_data <- raw_data[!is.na(as.numeric(as.character(raw_data$GPA))),] # Purge faulty data from people being ape brain
 
+# Convert height in feet and inches to just inches
+raw_data['Inches'] <- as.numeric(substr(raw_data$Height, 1, 1))*12 + as.numeric(substr(raw_data$Height, 3, nchar(raw_data$Height)))
+
+# Calculate BMI
+raw_data['BMI'] <- raw_data$Weight * 703 / raw_data$Inches^2
 
 # Get the Instagram users
 ig_users <- raw_data[raw_data$PostsPics != '',]
@@ -34,7 +39,11 @@ ig_users <- ig_users[!is.na(ig_users$Followers),] # Purge faulty data from peopl
 # Get the non-Instagram users
 nonIg_users <- raw_data[raw_data$PostsPics == '',]
 
-```
+# Relationship between BMI and number of followers
+plot(ig_users$BMI, ig_users$Followers)
+BMI_vs_Followers_Model <- lm(ig_users$Followers ~ ig_users$BMI, data = ig_users)
+summary(BMI_vs_Followers_Model) # High R-squared means strong correlation, low R-squared means we don't have evidence for a strong correlation
+```  
 
 
 ## Conclusions
