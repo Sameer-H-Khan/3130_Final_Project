@@ -9,13 +9,35 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## Introduction
-Talk about body shaming and why it's an issue. Talk about why it's important to study it-- if we can prove that there is body shaming on ig, then more resources can be allocated to solving the issue? 
+(Talk about body shaming and why it's an issue. Talk about why it's important to study it-- if we can prove that there is body shaming on ig, then more resources can be allocated to solving the issue?)
+
+Social media has become extremely common among university students. With its increasing popularity, many are concerned about its harmful consequences. Several studies have been conducted by health experts, and many point to social media having many negative affects, such as increased anxiety and depression, addiction, body dysmorphia, inability to focus on school or work, and more. Thus begins this study on the affects of social media. The motive of this case study is to find out if University of Utah students are negatively affected by the use of Instagram. 
+
+We decided to focus our efforts on studying Instagram over other social media apps because of its popularity, and because the activity of users on Instagram can potentially provide evidence suggesting the existence of body shaming on the platform. Individuals who post pictures of themselves on their accounts may receive more or less attention in the form of followers depending on their body types. To take this further, an individual's body type may even be a deciding factor in determining whether or not they have pictures of themselves on Instagram accounts in the first place. 
+
+Whether Instagram affects users' abilities to focus on work or school is another important topic to study, since general awareness about the issue can result in people taking responsibility for their content consumption, as well as encouraging further allocation of resources to provide services to help those who struggle with social media. In the case of U of U students, we all have a common and somewhat standard metric of determining performance-- GPA. Thus, we will study how time spent on Instagram affects U of U students' GPA's. To take this further, whether or not a student even has an Instagram may have an effect on their GPA, so this will be studied as well. 
+
+To summarize, this case study will attempt to answer the following questions with regards to University of Utah students:
+
+1) Does the BMI of an individual who has pictures of themselves on their Instagram account have an effect on the number of followers on said account?
+
+2) Does BMI affect whether or not users post pictures of themselves on their Instagram?
+
+3) Does BMI affect whether or not users have an Instagram account?
+
+4) Does the daily time spent on Instagram affect an individual's GPA?
+
+5) Does having an Instagram account affect an individual's GPA?
 
 ## Data Collection
-Start by talking about our plan to answer our question that was posed in the introduction. Then, talk about methods of collecting data-- how we collected the data, and why we collected the data this way. Talk about any flaws in the way we intend to gather data, and why we had to do it this way if it's less than ideal. 
+Start by talking about our plan to answer our question that was posed in the introduction. Discuss what we asked in the survey, mainly height, weight, IG usage, and followers. As an aside, bring up BMI, talk about its potential flaws, but why we ended up using it anyways for practicality. Then, talk about methods of collecting data-- how we collected the data, and why we collected the data this way. Talk about any flaws in the way we intend to gather data, and why we had to do it this way if it's less than ideal. 
 
 ## Data Analysis
 R stuff. Talk about how we had to transform the data-- manually changing incorrectly formatted data, getting bmi, bmi vs ig followers, relationships between variables, etc etc. Make and show graphs, charts, all that fancy stuff
+
+After receiving <N> survey responses, the csv file from the Google form was downloaded and read into R. A non-trivial amount of cleanup was required before all of the data could be used. For example, some survey respondents incorrectly formatted their heights. This was difficult to fix in R, so the csv file was altered manually. Examples of faulty data that was cleansed in R includes non-numeric answers for GPA, time spent on Instagram, or follower count-- the responses of these surveyees was dropped by using the "is.na" function in conjunction with other parsing functions. 
+
+Next, the BMI of each respondant needed to be calculated. To do this, the "Height" column was converted from feet and inches to inches. Then, a column for BMI was added, which was found by multiplying weight by 703 and dividing by the height (in inches) squared. From here, the data could be separated into multiple different tables to represent the different groups of this study. 
 
 ```{r, echo=FALSE}
 # Some data cleansing is done here. Some of it must be done manually every time the data set is downloaded. In particular, cleansing incorrectly formatted height data is difficult to do it in R, so just do it manually. 
@@ -33,8 +55,8 @@ raw_data['Inches'] <- as.numeric(substr(raw_data$Height, 1, 1))*12 + as.numeric(
 raw_data['BMI'] <- raw_data$Weight * 703 / raw_data$Inches^2
 
 # Get all Instagram users
-ig_users <- raw_data[raw_data$PostsPics != '',]
-ig_users <- ig_users[!is.na(ig_users$Followers),] # Purge faulty data from people being ape brain
+ig_users <- raw_data[raw_data$PostsPics != '',] # Maybe do == 'Yes' || == 'No' instead
+ig_users <- ig_users[!is.na(ig_users$Followers),] # Some people answered this question even though they don't have IG
 
 # Get Instagram users who post pictures of themselves
 ig_posters <- ig_users[ig_users$PostsPics == 'Yes',]
@@ -43,7 +65,7 @@ ig_posters <- ig_users[ig_users$PostsPics == 'Yes',]
 nonIg_users <- raw_data[raw_data$PostsPics == '',]
 
 # Relationship between BMI and number of followers for those who post pictures of themselves on IG
-plot(ig_posters$BMI, ig_posters$Followers)
+plot(ig_posters$BMI, ig_posters$Followers, xlab = "BMI", ylab = "Follower Count", main = "BMI vs Follower Count of those visible on their IG account")
 BMI_vs_Followers_Model <- lm(ig_posters$Followers ~ ig_posters$BMI, data = ig_posters)
 summary(BMI_vs_Followers_Model) # High R-squared means strong correlation, low R-squared means we don't have evidence for a strong correlation
 
@@ -52,7 +74,7 @@ t.test(ig_users$BMI, nonIg_users$BMI, conf.level = 0.95)
 
 
 # Relationship between GPA and number of time spent on IG
-plot(ig_users$MinsOnIG, ig_users$GPA)
+plot(ig_users$MinsOnIG, ig_users$GPA, xlab = "Minutes spent on Instagram per day", ylab = "GPA", main = "Time spent daily on Instagram vs GPA")
 TimeOnIG_vs_GPA_Model <- lm(ig_users$GPA ~ ig_users$MinsOnIG, data = ig_users)
 summary(TimeOnIG_vs_GPA_Model) # High R-squared means strong correlation, low R-squared means we don't have evidence for a strong correlation
 
