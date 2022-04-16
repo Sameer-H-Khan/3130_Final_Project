@@ -9,15 +9,12 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## Introduction
- <span style="color: red;">
-(Talk about body shaming and why it's an issue. Talk about why it's important to study it--if we can prove that there is body shaming on ig, then more resources can be allocated to solving the issue?)
-</span>
 
 Social media has become extremely common among university students. With its increasing popularity, many are concerned about its harmful consequences. Several studies have been conducted by health experts, and many point to social media having many negative affects, such as increased anxiety and depression, addiction, body dysmorphia, inability to focus on school or work, and more. Thus begins this study on the affects of social media. The motive of this case study is to find out if University of Utah students are negatively affected by the use of Instagram. 
 
 We decided to focus our efforts on studying Instagram over other social media apps because of its popularity, and because the activity of users on Instagram can potentially provide evidence suggesting the existence of body shaming on the platform. Individuals who post pictures of themselves on their accounts may receive more or less attention in the form of followers depending on their body types. To take this further, an individual's body type may even be a deciding factor in determining whether or not they have pictures of themselves on Instagram accounts in the first place. 
 
-Whether Instagram affects users' abilities to focus on work or school is another important topic to study, since general awareness about the issue can result in people taking responsibility for their content consumption, as well as encouraging further allocation of resources to provide services to help those who struggle with social media. In the case of U of U students, we all have a common and somewhat standard metric of determining performance-- GPA. Thus, we will study how time spent on Instagram affects U of U students' GPA's. To take this further, whether or not a student even has an Instagram may have an effect on their GPA, so this will be studied as well. 
+Whether Instagram affects users' abilities to focus on work or school is another important topic to study, since general awareness about the issue can result in people taking responsibility for their content consumption, as well as encouraging further allocation of resources to provide services to help those who struggle with social media. In the case of U of U students, we all have a common and somewhat standard metric of determining performance: GPA. Thus, we will study how time spent on Instagram affects U of U students' GPA's. To take this further, whether or not a student even has an Instagram may have an effect on their GPA, so this will be studied as well. 
 
 To summarize, this case study will attempt to answer the following questions with regards to University of Utah students:
 
@@ -32,18 +29,44 @@ To summarize, this case study will attempt to answer the following questions wit
 5) Does having an Instagram account affect an individual's GPA?
 
 ## Data Collection
- <span style="color: red;">
-Start by talking about our plan to answer our question that was posed in the introduction. Discuss what we asked in the survey, mainly height, weight, IG usage, and followers. As an aside, bring up BMI, talk about its potential flaws, but why we ended up using it anyways for practicality. Then, talk about methods of collecting data-- how we collected the data, and why we collected the data this way. Talk about any flaws in the way we intend to gather data, and why we had to do it this way if it's less than ideal. 
+
+This study is primarily focused on U of U students' usage of Instagram, their grades, and their body types. To help answer the questions posed in the introduction, we can gather data about students' usage of Instagram by asking whether or not respondents post pictures of themselves on their Instagram account, how many followers they have, and how many minutes per day they spend on Instagram. Quantifying respondents grades is very straightforward, since we can simply ask them for their cumulative GPA. 
+
+As for respondents' body types, this is much less simple. Asking respondents to describe their body types is impractical, and perhaps inappropriate. Asking them how they feel about their bodies wouldn't do us much good either, since a person's happiness with how they look depends on several factors other than their own body. Ideally, we want qualitative data here. Thus, we decided to collect each respondent's Body Mass Index (BMI) by asking them for their height and weight. However, this approach isn't without its flaws. BMI is a measure of body fat based entirely on an individual's height and weight--it does not account for other factors which play a large role in an individual's body type, such as their level of physical activity. An athlete with a significant amount of muscle mass could have a higher BMI than someone who leads a more sedentary lifestyle, but this doesn't mean that the athlete is overweight or less healthy than the individual with a lower BMI and more sedentary lifestyle. Body fat percentage would be a more accurate quantitative variable to describe an individual's body type. However decided against collecting this, since measuring respondents' body fat percentages comes with a plethora of impracticalities (we can't exactly hand surveyees body fat calipers over discord).
+
+We also included some questions that may not necessarily be used to answer the five questions posed in the introduction, but could provide some insight into our sample and the topic being studied. These questions asked about gender, sleep, and whether respondents felt like they spent too much time on Instagram. The survey questions are listed below:
+
+1) What is your cumulative GPA?
+
+2)  is your height in feet and inches?
+
+3) What is your gender?
+
+4) How much sleep do you get per night on average?
+
+5) What is your weight in pounds?
+
+The following questions were only posed to surveyees who had an Instagram account:
+
+6) Do you post pictures of yourself on your Instagram account?
+
+7) How many followers do you have on your Instagram account?
+
+8) On average, how many minutes do you spend on Instagram per day? 
+
+9) Do you feel like you spend too much time on Instagram?
+
+To gather the data, we created a Google survey with the questions listed below. The survey was posted on the class discord, as well as other U of U affiliated discord servers, such as Data Science UofU, U Physics & Astronomy, and Crimson Gaming. It was also posted to the U's subreddit, r/uofu. Then, we surveyed students on campus by ... 
+<span style="color: red;">
+Talk about methods of collecting data-- how we collected the data, and why we collected the data this way. Talk about any flaws in the way we intend to gather data, and why we had to do it this way if it's less than ideal. 
 </span>
 
+
 ## Data Analysis
- <span style="color: red;">
-R stuff. Talk about how we had to transform the data--manually changing incorrectly formatted data, getting bmi, bmi vs ig followers, relationships between variables, etc etc. Make and show graphs, charts, all that fancy stuff
-</span>
 
 After receiving (N) survey responses, the csv file from the Google form was downloaded and read into R. A non-trivial amount of cleanup was required before all of the data could be used. For example, some survey respondents incorrectly formatted their heights. This was difficult to fix in R, so the csv file was altered manually. Examples of faulty data that was cleansed in R includes non-numeric answers for GPA, time spent on Instagram, or follower count-- the responses of these surveyees was dropped by using the "is.na" function in conjunction with other parsing functions. Some of the incorrectly formatted data that was easy to locate and correct in the csv file was done directly in the csv file itself, such as surveyees including units for weight. 
 
-Next, the BMI of each respondent needed to be calculated. To do this, the "Height" column was converted from feet and inches to inches. Then, a column for BMI was added, which was found by multiplying weight by 703 and dividing by the height (in inches) squared. From here, the data could be separated into multiple different tables to represent the different groups of this study. There was a table for all respondents, respondents who used Instagram, respondents who used Instagram who posted pictures of themselves on their accounts, and respondents who used Instagram who didn't post pictures of themselves on their accounts. Now, the questions posed in the introduction can be studied.
+Next, the BMI of each respondent needed to be calculated. To do this, the "Height" column was converted from feet and inches to inches. Then, a column for BMI was added, which was found by multiplying weight by 703 and dividing by the height (in inches) squared. From here, the data could be separated into multiple different tables to represent the different groups of this study. There was a table for all respondents, respondents who used Instagram, respondents who used Instagram who posted pictures of themselves on their accounts, and respondents who used Instagram who didn't post pictures of themselves on their accounts. Now, data analysis can be performed with respect to the questions posed in the introduction.
 ```{r, echo=FALSE}
 # Some data cleansing is done here. Some of it must be done manually every time the data set is downloaded. In particular, cleansing incorrectly formatted height data is difficult to do it in R, so just do it manually. 
 
@@ -122,6 +145,8 @@ t.test(as.numeric(ig_users$GPA), as.numeric(nonIg_users$GPA), alternative = "les
 
 
 ## Conclusions
+
+
  <span style="color: red;">
 What conclusions can be made. Confounding variables, shortcomings of this study. Mostly STEM majors--asked people from class, discord, reddit, idk. See if we can actually answer the question we posed, strength of evidence, etc etc. Didn't have equal numbers of non IG users and IG users, or equal number of non IG pic posters and IG pic posters.
 </span>
