@@ -123,6 +123,14 @@ To determine whether BMI plays a roll in the number of followers an individual h
 plot(ig_posters$BMI, ig_posters$Followers, xlab = "BMI", ylab = "Follower Count", main = "BMI vs Follower Count of those visible on their IG account")
 BMI_vs_Followers_Model <- lm(ig_posters$Followers ~ ig_posters$BMI, data = ig_posters)
 summary(BMI_vs_Followers_Model) # High R-squared means strong correlation, low R-squared means we don't have evidence for a strong correlation
+
+plot(ig_postersMale$BMI, ig_postersMale$Followers, xlab = "BMI", ylab = "Follower Count", main = "Male BMI vs Follower Count of those visible on their IG account")
+BMI_vs_Followers_ModelMale <- lm(ig_postersMale$Followers ~ ig_postersMale$BMI, data = ig_postersMale)
+summary(BMI_vs_Followers_ModelMale) # High R-squared means strong correlation, low R-squared means we don't have evidence for a strong correlation
+
+plot(ig_postersFemale$BMI, ig_postersFemale$Followers, xlab = "BMI", ylab = "Follower Count", main = "Female BMI vs Follower Count of those visible on their IG account")
+BMI_vs_Followers_ModelFemale <- lm(ig_postersFemale$Followers ~ ig_postersFemale$BMI, data = ig_postersFemale)
+summary(BMI_vs_Followers_ModelFemale) # High R-squared means strong correlation, low R-squared means we don't have evidence for a strong correlation
 ```  
 
 #### 2) Does BMI affect whether or not users post pictures of themselves on their Instagram?
@@ -131,6 +139,11 @@ We want to answer whether the mean BMI of individuals who don't post pictures of
 ```{r, echo=FALSE}
 # 2) Does BMI affect whether or not users post pictures of themselves on their Instagram?
 t.test(ig_NonPosters$BMI, ig_posters$BMI, alternative = "two.sided", conf.level = 0.90)
+
+t.test(ig_nonPostersMale$BMI, ig_postersMale$BMI, alternative = "two.sided", conf.level = 0.90)
+
+t.test(ig_nonPostersFemale$BMI, ig_postersFemale$BMI, alternative = "two.sided", conf.level = 0.90)
+
 ```
 
 #### 3) Does BMI affect whether or not users have an Instagram account?
@@ -140,6 +153,10 @@ This will be determined in a fashion very similar to question 2 above. We want t
 # 3) Does BMI affect whether or not users have an Instagram account?
 # See if there's a difference in the BMI of people who have IG vs those who don't have IG
 t.test(nonIg_users$BMI, ig_users$BMI, alternative = "two.sided", conf.level = 0.90)
+
+t.test(nonIg_usersMale$BMI, ig_usersMale$BMI, alternative = "two.sided", conf.level = 0.90)
+
+t.test(nonIg_usersFemale$BMI, ig_usersFemale$BMI, alternative = "two.sided", conf.level = 0.90)
 ```
 
 #### 4) Does the daily time spent on Instagram affect an individual's GPA?
