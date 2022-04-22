@@ -94,6 +94,23 @@ ig_NonPosters <- ig_users[ig_users$PostsPics == 'No',]
 
 # Get the non-Instagram users
 nonIg_users <- raw_data[raw_data$PostsPics == '',]
+
+
+# Get all of the above, separate by Male/Female
+raw_dataMale <- raw_data[raw_data$Gender == 'Male',]
+raw_dataFemale <- raw_data[raw_data$Gender == 'Female',]
+
+ig_usersMale <- ig_users[ig_users$Gender == 'Male',]
+ig_usersFemale <- ig_users[ig_users$Gender == 'Female',]
+
+ig_postersMale <- ig_posters[ig_posters$Gender == 'Male',]
+ig_postersFemale <- ig_posters[ig_posters$Gender == 'Female',]
+
+ig_nonPostersMale <- ig_NonPosters[ig_NonPosters$Gender == 'Male',]
+ig_nonPostersFemale <- ig_NonPosters[ig_NonPosters$Gender == 'Female',]
+
+nonIg_usersMale <- nonIg_users[nonIg_users$Gender == 'Male',]
+nonIg_usersFemale <- nonIg_users[nonIg_users$Gender == 'Female',]
 ```
 
 #### 1) Does the BMI of an individual who has pictures of themselves on their Instagram account have an effect on the number of followers on their account?
