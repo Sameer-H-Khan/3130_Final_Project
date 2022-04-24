@@ -1,5 +1,5 @@
 ---
-title: "Final Project Report"
+title: "Are University of Utah Students Negatively Affected by the Use of Instagram?"
 authors: Sameer Khan, Luke Schreiber, Nick Waddups
 output: html_document
 ---
@@ -136,20 +136,29 @@ ig_posting_by_gender <- matrix(c(nrow(ig_postersMale), nrow(ig_postersFemale), n
 fisher.test(ig_posting_by_gender, conf.level=0.95)
 ```
 
+
 #### 2) Does BMI affect whether or not Instagram users post pictures of themselves on their Instagram?
 We want to answer whether the mean BMI of individuals who don't post pictures of themselves on their Instagram accounts is different from the mean BMI of individuals who do post pictures of themselves on their Instagram accounts. It's important to aknowledge that body shaming can go both ways--it is something that people can unfortunately experience at high BMI's as well as low BMI's. Thus, this question will be answered by running a two-sample t-test for the difference of means with a 90% confidence level. To account for body shaming going both ways, this will be a two-sided hypothesis test. In other words, the null hypothesis is that the true difference in means between the two groups is equal to zero, and the alternative hypothesis is that the true difference is not equal to 0 (not necessarily just less than 0 or just greater than 0). We chose a 90% as our confidence level over a higher value like 95% or 99% because type 1 errors aren't a concern--it wouldn't be a huge problem if we claimed to have evidence of body shaming even though there is no body shaming in reality. At least, it wouldn't be nearly as big of an issue compared to a type 2 error: claiming that there is no evidence of body shaming, when in reality, body shaming is present. In other words, we chose a 90% confidence level because having a lower confidence level reduces the probability of a type 2 error, which would be more detrimental in this case. Three hypothesis tests for this data were conducted. First, we ran the hypothesis tests for the difference of sample means for all respondents. Then, we ran the same tests for males and females separately. Much like in question 1, gender has the potential to be a confounding variable here, so when making conclusions using this hypothesis test, we'll be sure to reference the confidence interval for the ratio of odds created in question 1.
 
 ```{r, echo=FALSE}
 # 2) Does BMI affect whether or not users post pictures of themselves on their Instagram?
-t.test(ig_NonPosters$BMI, ig_posters$BMI, alternative = "two.sided", conf.level = 0.90)
-
-t.test(ig_nonPostersMale$BMI, ig_postersMale$BMI, alternative = "two.sided", conf.level = 0.90)
-
-t.test(ig_nonPostersFemale$BMI, ig_postersFemale$BMI, alternative = "two.sided", conf.level = 0.90)
-
+ttest <- t.test(ig_NonPosters$BMI, ig_posters$BMI, alternative = "two.sided", conf.level = 0.90)
+ttest
+critValAll <- qt(0.05, ttest$parameter, lower.tail = FALSE)
 ```
-
-
+Critical value: ±`r critValAll`
+```{r, echo=FALSE}
+ttest <- t.test(ig_nonPostersMale$BMI, ig_postersMale$BMI, alternative = "two.sided", conf.level = 0.90)
+ttest
+critValMale <- qt(0.05, ttest$parameter, lower.tail = FALSE)
+```
+Critical value: ±`r critValMale`
+```{r, echo=FALSE}
+ttest <- t.test(ig_nonPostersFemale$BMI, ig_postersFemale$BMI, alternative = "two.sided", conf.level = 0.90)
+ttest
+critValFemale <- qt(0.05, ttest$parameter, lower.tail = FALSE)
+```
+Critical value: ±`r critValFemale`
 
 
 #### 3) Does BMI affect whether or not individuals have an Instagram account?
@@ -157,13 +166,23 @@ This will be determined in a fashion very similar to question 2 above. We want t
 
 ```{r, echo=FALSE}
 # 3) Does BMI affect whether or not users have an Instagram account?
-# See if there's a difference in the BMI of people who have IG vs those who don't have IG
-t.test(nonIg_users$BMI, ig_users$BMI, alternative = "two.sided", conf.level = 0.90)
-
-t.test(nonIg_usersMale$BMI, ig_usersMale$BMI, alternative = "two.sided", conf.level = 0.90)
-
-t.test(nonIg_usersFemale$BMI, ig_usersFemale$BMI, alternative = "two.sided", conf.level = 0.90)
+ttest <- t.test(nonIg_users$BMI, ig_users$BMI, alternative = "two.sided", conf.level = 0.90)
+ttest
+critValAll <- qt(0.05, ttest$parameter, lower.tail = FALSE)
 ```
+Critical value: ±`r critValAll`
+```{r, echo=FALSE}
+ttest <- t.test(nonIg_usersMale$BMI, ig_usersMale$BMI, alternative = "two.sided", conf.level = 0.90)
+ttest
+critValAll <- qt(0.05, ttest$parameter, lower.tail = FALSE)
+```
+Critical value: ±`r critValMale`
+```{r, echo=FALSE}
+ttest <- t.test(nonIg_usersFemale$BMI, ig_usersFemale$BMI, alternative = "two.sided", conf.level = 0.90)
+ttest
+critValAll <- qt(0.05, ttest$parameter, lower.tail = FALSE)
+```
+Critical value: ±`r critValFemale`
 
 Much like in questions 1 and 2, gender could be a confounding variable here. To account for this, a 95% confidence interval is created for the ratio of odds of male Instagram usage vs females Instagram usage. The results of the Fisher's test are shown below.
 
@@ -183,14 +202,17 @@ TimeOnIG_vs_GPA_Model <- lm(ig_users$GPA ~ ig_users$MinsOnIG, data = ig_users)
 summary(TimeOnIG_vs_GPA_Model) # High R-squared means strong correlation, low R-squared means we don't have evidence for a strong correlation
 ```
 
+
 #### 5) Does having an Instagram account affect an individual's GPA?
-Determining the answer to this question will involve another confidence interval. We want to determine whether the mean GPA of U of U students who have an Instagram is less than the mean GPA of those who do not have an Instagram. Thus, a two-sample t-test for the difference of means will be conducted. Unlike the previous two t-tests, this one will be a one sided test. We are specifically looking for evidence that the mean GPA of Instagram users is less than the mean GPA of those who don't user Instagram. So, the null hypothesis is that the difference in mean GPA of U of U students who use Instagram and those who don't is greater than or equal to 0, and the alternative hypothesis is that this difference is less than 0. Also, for this test, we chose a confidence level of 95%--this is a higher confidence level than the other two t-tests conducted. This is because the difference in severity for type 1 and type 2 errors isn't as prominent here. We don't want to fail to reject the null hypothesis when it is false, but on the other hand, we don't wan't to tell students to further limit their Instagram usage if it doesn't actually affect their GPA. Especially with COVID, Instagram has the ability to let students socialize with people that they may not be able to see in-person. This is not something we want to limit for no good reason. The results of the t-test are shown below.
+Determining the answer to this question will involve another confidence interval. We want to determine whether the mean GPA of U of U students who have an Instagram is less than the mean GPA of those who do not have an Instagram. Thus, a two-sample t-test for the difference of means will be conducted. Unlike the previous two t-tests, this one will be a one sided test. We are specifically looking for evidence that the mean GPA of Instagram users is less than the mean GPA of those who don't user Instagram. So, the null hypothesis is that the difference in mean GPA of U of U students who use Instagram and those who don't is greater than or equal to 0, and the alternative hypothesis is that this difference is less than 0. Also, for this test, we chose a confidence level of 95%--this is a higher confidence level than the other two t-tests conducted. This is because the difference in severity for type 1 and type 2 errors isn't as prominent here. We don't want to fail to reject the null hypothesis when it is false, but on the other hand, we don't want to tell students to further limit their Instagram usage if it doesn't actually affect their GPA. Especially with COVID, Instagram has the ability to let students socialize with people that they may not be able to see in-person. This is not something we want to limit for no good reason. The results of the t-test are shown below.
 
 ```{r, echo=FALSE}
 # 5) Does having an Instagram account affect an individual's GPA?
-t.test(as.numeric(ig_users$GPA), as.numeric(nonIg_users$GPA), alternative = "less", conf.level = 0.95)
+ttest <- t.test(as.numeric(ig_users$GPA), as.numeric(nonIg_users$GPA), alternative = "less", conf.level = 0.95)
+ttest
+critVal <- qt(0.05, ttest$parameter, lower.tail = TRUE)
 ```
-
+Critical value: `r critVal`
 
 ## Conclusions
 
@@ -208,7 +230,7 @@ Our next two questions dealt with Instagram's effect on U of U students' perform
 
 Question 5 involved conducting another t-test to determine whether having an Instagram account affected a student's GPA. Based on the results from question 4, one would expect that we wouldn't see a significant difference between the two sample means, since we weren't able to prove that there's a correlation between time spent on Instagram and GPA. However, the results of the t-test do in fact show a significant difference between the sample means. The one-sided 95% t-test yielded a confidence interval from -$\infty$ to -0.007446078, a p-value of 0.04108, which is less than the alpha value of 0.05, and a t-statistic with a value of -1.7714, which is less than the critical value of -1.673662. Thus, we have enough evidence to reject the null hypothesis that the true difference in means is greater than or equal to zero. We are 95% confident that the mean GPA of U of U students who use Instagram is less than the mean GPA of U of U students who do not use Instagram. This seems like it conflicts with our conclusions from question 4. After all, the linear model did not show that students who spent 0 minutes per day tend to have a higher GPA than those who spend more time per day on Instagram. However, question 5 involved part of the sample that question 4 did not use, which was the group of students who didn't even have an Instagram account. For this study, having an Instagram account but spending 0 minutes per day on Instagram is different from not having an Instagram at all. Despite this, there may be other reasons to call the results of this t-test into question. As discussed in question 4, students' majors could be a confounding variable. In addition to this, the sample size of students who don't use Instagram is much smaller than the sample size of students who use Instagram. We collected responses from 105 students who do use Instagram, but only 28 responses from students who don't use Instagram. Because of the smaller sample size for the latter, the sample mean GPA for the non-Instagram users is less likely to be close to the true population mean GPA due to the law of large numbers. Thus, the results of this t-test must be taken with a grain of salt. 
 
-In conclusion, we were able to find evidence of body shaming on Instagram in questions 2 and 3, as well as evidence of Instagram usage affecting U of U student performance in question 5. But, for each of these questions, our conclusions are imperfect due to our sampling methods. For questions 1-3, the difference between the number of male respondents and female respondents proved to be problematic in drawing clear conclusions. As for questions 4 and 5, not taking students' GPA into account and the over representation of STEM majors could make our conclusions less valid. Also, for all questions, it would have helped if we had received a more even distribution of respondents who do use Instagram and respondents who don't use Instagram. If this study were to be repeated, perhaps some sort of stratified or cluster sampling would help. This way, we could have the same number of male and female respondents, the same number of responses from people who do and don't use Instagram, the same number of responses from people who use Instagram and post pictures of themselves and people who use Instagram and don't post pictures of themselves, etc.
+In conclusion, we were able to find evidence of body shaming on Instagram in questions 2 and 3, as well as evidence of Instagram usage affecting U of U student performance in question 5. But, for each of these questions, our conclusions are imperfect due to our sampling methods. For questions 1-3, the difference between the number of male respondents and female respondents proved to be problematic in drawing clear conclusions. This is because these questions used BMI as a metric for students' body types, which is a metric that is dependent on gender. As for questions 4 and 5, not taking students' majors into account and the over representation of STEM majors could make our conclusions less valid. Also, for all questions, it would have helped if we had received a more even distribution of respondents who do use Instagram and respondents who don't use Instagram. If this study were to be repeated, perhaps some sort of stratified or cluster sampling would help. This way, we could have the same number of male and female respondents, the same number of responses from people who do and don't use Instagram, the same number of responses from people who use Instagram and post pictures of themselves and people who use Instagram and don't post pictures of themselves, etc. Regardless, despite the imperfections of this study, we still have some evidence to suggest that Instagram may be negatively affecting U of U students. 
 
 
 </span>
