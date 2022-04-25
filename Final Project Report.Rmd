@@ -174,13 +174,13 @@ Critical value: ±`r critValAll`
 ```{r, echo=FALSE}
 ttest <- t.test(nonIg_usersMale$BMI, ig_usersMale$BMI, alternative = "two.sided", conf.level = 0.90)
 ttest
-critValAll <- qt(0.05, ttest$parameter, lower.tail = FALSE)
+critValMale <- qt(0.05, ttest$parameter, lower.tail = FALSE)
 ```
 Critical value: ±`r critValMale`
 ```{r, echo=FALSE}
 ttest <- t.test(nonIg_usersFemale$BMI, ig_usersFemale$BMI, alternative = "two.sided", conf.level = 0.90)
 ttest
-critValAll <- qt(0.05, ttest$parameter, lower.tail = FALSE)
+critValFemale <- qt(0.05, ttest$parameter, lower.tail = FALSE)
 ```
 Critical value: ±`r critValFemale`
 
